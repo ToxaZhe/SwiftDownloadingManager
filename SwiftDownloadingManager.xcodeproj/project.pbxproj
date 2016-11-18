@@ -13,6 +13,7 @@
 		CE83DB371DDF88C500B953EE /* SwiftDownloadingManager.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE83DB351DDF88C500B953EE /* SwiftDownloadingManager.xcdatamodeld */; };
 		CE83DB391DDF88C500B953EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE83DB381DDF88C500B953EE /* Assets.xcassets */; };
 		CE83DB3C1DDF88C500B953EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE83DB3A1DDF88C500B953EE /* LaunchScreen.storyboard */; };
+		CE83DB441DDF8A3700B953EE /* LoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83DB431DDF8A3700B953EE /* LoadManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		CE83DB381DDF88C500B953EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE83DB3B1DDF88C500B953EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE83DB3D1DDF88C500B953EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE83DB431DDF8A3700B953EE /* LoadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				CE83DB2E1DDF88C500B953EE /* AppDelegate.swift */,
 				CE83DB301DDF88C500B953EE /* ViewController.swift */,
+				CE83DB431DDF8A3700B953EE /* LoadManager.swift */,
 				CE83DB321DDF88C500B953EE /* Main.storyboard */,
 				CE83DB381DDF88C500B953EE /* Assets.xcassets */,
 				CE83DB3A1DDF88C500B953EE /* LaunchScreen.storyboard */,
@@ -142,6 +145,7 @@
 				CE83DB311DDF88C500B953EE /* ViewController.swift in Sources */,
 				CE83DB371DDF88C500B953EE /* SwiftDownloadingManager.xcdatamodeld in Sources */,
 				CE83DB2F1DDF88C500B953EE /* AppDelegate.swift in Sources */,
+				CE83DB441DDF8A3700B953EE /* LoadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
