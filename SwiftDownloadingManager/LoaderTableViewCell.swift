@@ -15,63 +15,72 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
     @IBOutlet weak var progressInfoLbl: UILabel!
     @IBOutlet weak var playSongButton: UIButton!
     
+    var localDataSaver: CoreDataManager?
     var goListenSong: (() -> ())?
     var downloadInfo: DownloadInfo?
     var loader: LoadManager?
+    var urlString: String?
+    var fileName: String?
+    var downloaded = false
   //MARK:  cell info
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        configCellOrManageLoading()
+        
        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        configCellOrManageLoading()
         // Configure the view for the selected state
     }
 //MARK: Handle download process
     
     func configCellOrManageLoading() {
-        
-        downloadInfo = DownloadInfo()
+        localDataSaver = CoreDataManager()
+        downloadInfo = DownloadInfo(context: localDataSaver!.getContext())
         loader = LoadManager()
         loader?.delegate = self
-        if downloadInfo!.downloaded {
+        if downloaded {
             stopResumeButton.isHidden = false
             if downloadInfo?.startingDownload != nil && downloadInfo?.finishedDownload != nil {
                 progressInfoLbl.text = "Started \(downloadInfo?.startingDownload) Completed \(downloadInfo?.finishedDownload)"
                 guard let fileName = downloadInfo?.fileName else {fileNameLbl.text = "No File Name";return}
                 fileNameLbl.text = fileName
-            } else if !(downloadInfo!.downloaded) && downloadInfo?.urlString != nil {
-                loader?.loadFileFromUrl(urlString: (downloadInfo?.urlString)!)        }
-            guard let fileName = downloadInfo?.fileName else {fileNameLbl.text = "No File Name";return}
-            fileNameLbl.text = fileName
+            }
+        
+        } else if !downloaded && urlString != nil {
+            loader?.loadFileFromUrl(urlString: (urlString)!)
         }
-
+        guard let fileName = fileName else {fileNameLbl.text = "No File Name";return}
+        fileNameLbl.text = fileName
     }
     
-    func getLoadingInfo(_ startDate: Date?, finishedDate: Date?, downloaded: Bool, progress: Double?, error: Error?) {
+    func getLoadingInfo(_ startDate: Date?, finishedDate: Date?, downloaded: Bool, expectedBytes: Int?, writtenBytes: Int?, error: Error?) {
         if downloaded && startDate != nil && finishedDate != nil {
             progressInfoLbl.text = "Started \(startDate!) Completed \(finishedDate!)"
             let localDataSaver = CoreDataManager()
-            downloadInfo?.downloaded = true
+            self.downloaded = true
+            downloadInfo?.downloaded = downloaded
             downloadInfo?.startingDownload = startDate as NSDate?
             downloadInfo?.finishedDownload = finishedDate as NSDate?
+            downloadInfo?.urlString = urlString
+            downloadInfo?.fileName = fileName
+//            print("\(downloadInfo?.description)")
             localDataSaver.saveMox(storeMod: downloadInfo!, onError: { (failure) in
                 progressInfoLbl.text = "\(failure.localizedDescription)"
             })
             
         } else if error == nil {
-            progressInfoLbl.text = "completed \(progress!)%"
+            progressInfoLbl.text = "\(writtenBytes!) bytes of \(expectedBytes!) bytes "
         } else if error != nil {
             progressInfoLbl.text = "\(error!.localizedDescription)"
         }
     }
     
     @IBAction func stopResumeAction(_ sender: UIButton) {
-        if !(downloadInfo!.downloaded) {
+        if !(downloaded) {
             loader?.stopResumeDowload()
         }
         

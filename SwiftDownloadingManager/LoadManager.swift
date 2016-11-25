@@ -9,7 +9,7 @@
 import Foundation
 
 protocol LoadManagerInfoDelegate: class {
-    func getLoadingInfo(_ startDate: Date?, finishedDate: Date?, downloaded: Bool, progress: Double?, error: Error?)
+    func getLoadingInfo(_ startDate: Date?, finishedDate: Date?, downloaded: Bool, expectedBytes: Int?, writtenBytes: Int?, error: Error?)
 }
 
 class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSessionTaskDelegate {
@@ -36,25 +36,26 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
         self._fileTask?.resume()
     }
     
+    
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
         if dataTask == _fileTask {
             _expectedFileLenght = response.expectedContentLength
-            print("\(_expectedFileLenght)")
             completionHandler(.allow)
         }
     
     }
     
+        
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if error != nil {
-            delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, progress: nil, error: error)
+            delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: error)
         } else {
             guard let url = _fileUrl else {print("LoadManager -> can't save dat - no urlString"); return}
             let fileName = FileManage.getFileName(urlString: url)
             FileManage.saveMp3ToTheAppDirectory(fileData: _fileData, fileName: fileName, onSuccess: { 
-                delegate?.getLoadingInfo(_startDowloading, finishedDate: _finishDowloading, downloaded: true, progress: Double(_expectedFileLenght!), error: nil)
+                delegate?.getLoadingInfo(_startDowloading, finishedDate: _finishDowloading, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: nil)
             }, onError: { (failure) in
-                delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, progress: nil, error: failure)
+                delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: failure)
             })
             
         }
@@ -63,23 +64,19 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
    
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         if task == _fileTask {
-            print("\(task.countOfBytesExpectedToReceive) - \(task.countOfBytesReceived) ")
             _startDowloading = metrics.taskInterval.start
             _finishDowloading = metrics.taskInterval.end
-            print("\(_startDowloading) - \(_finishDowloading)")
         }
     }
     
-    func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
-        
-        let uploadProgress = Double(totalBytesSent) / Double(totalBytesExpectedToSend) * 100
-        
-        delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: false, progress: uploadProgress, error: nil)
-    }
+    
     
    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         if dataTask == _fileTask {
             _fileData.append(data)
+            let bytesWritten = _fileData.count
+            let expectedBytes = Int(_expectedFileLenght!)
+            delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: false, expectedBytes: expectedBytes, writtenBytes: bytesWritten, error: nil)
     
         }
     }

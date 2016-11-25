@@ -55,19 +55,19 @@
                                     <constraint firstItem="KXx-vn-Z30" firstAttribute="leading" secondItem="xDo-ID-v98" secondAttribute="leading" constant="52" id="u3Z-Xq-XbF"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MlZ-WV-sDR">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MlZ-WV-sDR">
                                 <rect key="frame" x="0.0" y="108" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="61" id="pqj-Yd-fqi" customClass="LoaderTableViewCell" customModule="SwiftDownloadingManager" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="61"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoaderCell" rowHeight="200" id="pqj-Yd-fqi" customClass="LoaderTableViewCell" customModule="SwiftDownloadingManager" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pqj-Yd-fqi" id="Xqn-Pi-w1w">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPZ-gz-D1S">
-                                                    <rect key="frame" x="4" y="8" width="44" height="44"/>
+                                                    <rect key="frame" x="4" y="78" width="44" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="44" id="h5U-vL-cvu"/>
                                                         <constraint firstAttribute="height" constant="44" id="vmQ-iU-rEn"/>
@@ -86,14 +86,14 @@
                                                     <color key="textColor" red="0.2661622917" green="0.461080661" blue="0.14798157980000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Progress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="taV-M0-g4b">
-                                                    <rect key="frame" x="56" y="35.5" width="259" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="1" green="0.46230174439999999" blue="0.22083717259999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Progress" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="taV-M0-g4b">
+                                                    <rect key="frame" x="56" y="35" width="259" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" red="0.83921568629999999" green="0.1215686275" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="unf-PD-D6f">
-                                                    <rect key="frame" x="323" y="8" width="44" height="44"/>
+                                                    <rect key="frame" x="323" y="78" width="44" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="44" id="Sfv-Bi-qdQ"/>
                                                         <constraint firstAttribute="height" constant="44" id="tsO-80-dOO"/>
@@ -108,9 +108,9 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="unf-PD-D6f" firstAttribute="centerY" secondItem="Xqn-Pi-w1w" secondAttribute="centerY" id="LCM-J2-D1C"/>
-                                                <constraint firstAttribute="bottom" secondItem="taV-M0-g4b" secondAttribute="bottom" constant="4" id="Phi-RF-EUU"/>
                                                 <constraint firstItem="unf-PD-D6f" firstAttribute="leading" secondItem="jTQ-iQ-JK9" secondAttribute="trailing" constant="8" id="Yd7-wI-rDQ"/>
                                                 <constraint firstItem="jTQ-iQ-JK9" firstAttribute="leading" secondItem="fPZ-gz-D1S" secondAttribute="trailing" constant="8" id="bAv-wF-ggD"/>
+                                                <constraint firstItem="taV-M0-g4b" firstAttribute="top" secondItem="jTQ-iQ-JK9" secondAttribute="bottom" constant="2" id="cwr-fE-Usx"/>
                                                 <constraint firstItem="unf-PD-D6f" firstAttribute="leading" secondItem="taV-M0-g4b" secondAttribute="trailing" constant="8" id="g8z-Hh-kvp"/>
                                                 <constraint firstItem="jTQ-iQ-JK9" firstAttribute="top" secondItem="Xqn-Pi-w1w" secondAttribute="topMargin" constant="4" id="go7-C2-kWB"/>
                                                 <constraint firstItem="fPZ-gz-D1S" firstAttribute="leading" secondItem="Xqn-Pi-w1w" secondAttribute="leading" constant="4" id="lDE-jZ-Nye"/>
@@ -127,6 +127,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Lkx-8T-AgM"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="tqk-RY-nIO"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -141,10 +145,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="asv-tY-c5g"/>
+                    <connections>
+                        <outlet property="tableView" destination="MlZ-WV-sDR" id="Hr1-be-I9R"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1343.2" y="-28.335832083958024"/>
+            <point key="canvasLocation" x="1484" y="-28"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="l6I-f4-25X">
@@ -159,7 +166,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFg-v5-hhI">
-                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aj5-VP-e7v">
                                         <rect key="frame" x="8" y="0.0" width="44" height="44"/>
@@ -211,10 +218,10 @@
             </objects>
             <point key="canvasLocation" x="1343" y="641"/>
         </scene>
-        <!--View Controller-->
+        <!--Urls View Controller-->
         <scene sceneID="ZQW-aE-GEp">
             <objects>
-                <viewController id="KB4-2b-M4a" sceneMemberID="viewController">
+                <viewController id="KB4-2b-M4a" customClass="UrlsViewController" customModule="SwiftDownloadingManager" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sBl-6X-4F6"/>
                         <viewControllerLayoutGuide type="bottom" id="QdL-fR-ea8"/>
@@ -280,6 +287,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="KB4-2b-M4a" id="glx-k5-4sc"/>
+                                    <outlet property="delegate" destination="KB4-2b-M4a" id="qhN-6h-0e0"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -293,10 +304,15 @@
                             <constraint firstItem="dWE-UT-WlL" firstAttribute="top" secondItem="sGO-Mq-GIC" secondAttribute="bottom" id="UFp-AV-g6y"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="dWE-UT-WlL" id="ziF-pm-c3Y"/>
+                        <segue destination="Jeb-5B-F9R" kind="unwind" identifier="GoBackWithNeedeUrl" unwindAction="unwindToSelfWithUnwindSegue:" id="39F-7s-edx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pb9-Hy-gNW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Jeb-5B-F9R" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2054" y="-28"/>
+            <point key="canvasLocation" x="2294" y="-28"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oRe-LT-9rj">
