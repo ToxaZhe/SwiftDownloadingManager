@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE66659F1DE779DD0067DEB9 /* LoaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE66659E1DE779DD0067DEB9 /* LoaderTableViewCell.swift */; };
+		CE7459851DE6399D00CB6164 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7459841DE6399D00CB6164 /* CoreDataManager.swift */; };
+		CE7459871DE63B6E00CB6164 /* FileManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7459861DE63B6E00CB6164 /* FileManage.swift */; };
 		CE83DB2F1DDF88C500B953EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83DB2E1DDF88C500B953EE /* AppDelegate.swift */; };
 		CE83DB311DDF88C500B953EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83DB301DDF88C500B953EE /* ViewController.swift */; };
 		CE83DB341DDF88C500B953EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE83DB321DDF88C500B953EE /* Main.storyboard */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE66659E1DE779DD0067DEB9 /* LoaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoaderTableViewCell.swift; sourceTree = "<group>"; };
+		CE7459841DE6399D00CB6164 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		CE7459861DE63B6E00CB6164 /* FileManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManage.swift; sourceTree = "<group>"; };
 		CE83DB2B1DDF88C500B953EE /* SwiftDownloadingManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDownloadingManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE83DB2E1DDF88C500B953EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE83DB301DDF88C500B953EE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -61,6 +67,9 @@
 				CE83DB2E1DDF88C500B953EE /* AppDelegate.swift */,
 				CE83DB301DDF88C500B953EE /* ViewController.swift */,
 				CE83DB431DDF8A3700B953EE /* LoadManager.swift */,
+				CE7459841DE6399D00CB6164 /* CoreDataManager.swift */,
+				CE66659E1DE779DD0067DEB9 /* LoaderTableViewCell.swift */,
+				CE7459861DE63B6E00CB6164 /* FileManage.swift */,
 				CE83DB321DDF88C500B953EE /* Main.storyboard */,
 				CE83DB381DDF88C500B953EE /* Assets.xcassets */,
 				CE83DB3A1DDF88C500B953EE /* LaunchScreen.storyboard */,
@@ -145,6 +154,9 @@
 				CE83DB311DDF88C500B953EE /* ViewController.swift in Sources */,
 				CE83DB371DDF88C500B953EE /* SwiftDownloadingManager.xcdatamodeld in Sources */,
 				CE83DB2F1DDF88C500B953EE /* AppDelegate.swift in Sources */,
+				CE66659F1DE779DD0067DEB9 /* LoaderTableViewCell.swift in Sources */,
+				CE7459871DE63B6E00CB6164 /* FileManage.swift in Sources */,
+				CE7459851DE6399D00CB6164 /* CoreDataManager.swift in Sources */,
 				CE83DB441DDF8A3700B953EE /* LoadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,6 +317,7 @@
 				CE83DB421DDF88C500B953EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
