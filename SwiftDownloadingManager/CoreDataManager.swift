@@ -12,6 +12,9 @@ import CoreData
 
 class CoreDataManager: NSObject {
     
+    static let instance = CoreDataManager()
+    var moc: NSManagedObjectContext?
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "SwiftDownloadingManager")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -22,9 +25,13 @@ class CoreDataManager: NSObject {
         return container
     }()
     
-    func getContext () -> NSManagedObjectContext {
-        
-        return self.persistentContainer.viewContext
+    func getContext () -> NSManagedObjectContext? {
+        if moc != nil {
+            return moc
+        } else {
+            moc = self.persistentContainer.viewContext
+            return moc
+        }
     }
     
     // MARK: - Core Data Saving/Fetching/Deleting
@@ -35,9 +42,9 @@ class CoreDataManager: NSObject {
         let context = getContext()
         
         
-        if context.hasChanges {
+        if context!.hasChanges {
             do {
-                try context.save()
+                try context!.save()
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -48,7 +55,7 @@ class CoreDataManager: NSObject {
     func saveMox(storeMod: DownloadInfo, onError:(Error) -> ()) {
         let context = getContext()
         do {
-            try context.save()
+            try context!.save()
             print("saved")
         }  catch {
             onError(error)
@@ -61,9 +68,9 @@ class CoreDataManager: NSObject {
         let fetchRequest: NSFetchRequest<DownloadInfo> = DownloadInfo.fetchRequest()
         do {
             
-            let searchResults = try context.fetch(fetchRequest)
+            let searchResults = try context!.fetch(fetchRequest)
             
-            print ("num of results = \(searchResults.count)")
+            print ("num of results = \(searchResults.description)")
             
             let res = searchResults.sorted(by: {$0.finishedDownload! <
                 $1.finishedDownload!})
@@ -82,9 +89,9 @@ class CoreDataManager: NSObject {
         let predicate = NSPredicate(format: "fileName == %@", songName)
         fetchRequest.predicate = predicate
         do {
-            let searchResults = try context.fetch(fetchRequest)
+            let searchResults = try context!.fetch(fetchRequest)
             for res in searchResults {
-                context.delete(res)
+                context!.delete(res)
                 print("successfully removed entity")
             }
         } catch {

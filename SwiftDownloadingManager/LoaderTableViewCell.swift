@@ -15,7 +15,6 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
     @IBOutlet weak var progressInfoLbl: UILabel!
     @IBOutlet weak var playSongButton: UIButton!
     
-    var localDataSaver: CoreDataManager?
     var goListenSong: (() -> ())?
     var downloadInfo: DownloadInfo?
     var loader: LoadManager?
@@ -38,8 +37,8 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
 //MARK: Handle download process
     
     func configCellOrManageLoading() {
-        localDataSaver = CoreDataManager()
-        downloadInfo = DownloadInfo(context: localDataSaver!.getContext())
+
+        downloadInfo = DownloadInfo(context: CoreDataManager.instance.getContext()!)
         loader = LoadManager()
         loader?.delegate = self
         if downloaded {
@@ -60,7 +59,6 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
     func getLoadingInfo(_ startDate: Date?, finishedDate: Date?, downloaded: Bool, expectedBytes: Int?, writtenBytes: Int?, error: Error?) {
         if downloaded && startDate != nil && finishedDate != nil {
             progressInfoLbl.text = "Started \(startDate!) Completed \(finishedDate!)"
-            let localDataSaver = CoreDataManager()
             self.downloaded = true
             downloadInfo?.downloaded = downloaded
             downloadInfo?.startingDownload = startDate as NSDate?
@@ -68,7 +66,7 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
             downloadInfo?.urlString = urlString
             downloadInfo?.fileName = fileName
 //            print("\(downloadInfo?.description)")
-            localDataSaver.saveMox(storeMod: downloadInfo!, onError: { (failure) in
+            CoreDataManager.instance.saveMox(storeMod: downloadInfo!, onError: { (failure) in
                 progressInfoLbl.text = "\(failure.localizedDescription)"
             })
             

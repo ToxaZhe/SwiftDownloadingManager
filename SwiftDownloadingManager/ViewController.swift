@@ -14,25 +14,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var loadManager: LoadManager?
     var downloadInfo: DownloadInfo?
     var localDownloads: [DownloadInfo]?
-    var localDataManager: CoreDataManager?
+    
     
     let identifier = "LoaderCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        CoreDataManager.instance.getSortedFetch(onSuccess: { (fetchedResult) in
+            localDownloads = fetchedResult
+        }, onError: { (defect) in
+            DialogHelper.showAlert(title: "Error", message: defect.localizedDescription, controller: self)
+        })
+
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        localDataManager = CoreDataManager()
-        localDataManager?.getSortedFetch(onSuccess: { (fetchedResult) in
-            localDownloads = fetchedResult
-        }, onError: { (defect) in
-            DialogHelper.showAlert(title: "Error", message: defect.localizedDescription, controller: self)
-        })
-    }
+        
+            }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -40,7 +40,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     @IBAction func unwindToSelf(unwindSegue: UIStoryboardSegue) {
         if let dataVC = unwindSegue.source as? UrlsViewController {
-            let downloadInfo = DownloadInfo(context: localDataManager!.getContext())
+            let downloadInfo = DownloadInfo(/*context: CoreDataManager.instance.getContext()!*/)
             if dataVC.url != nil && dataVC.fileName != nil {
                 downloadInfo.urlString = dataVC.url
                 downloadInfo.fileName = dataVC.fileName

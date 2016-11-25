@@ -14,6 +14,7 @@ import UIKit
 class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    let context = CoreDataManager.instance.getContext()
     
     var url: String?
     var fileName: String?
@@ -44,8 +45,14 @@ class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let segueIdentifier = "GoBackWithNeedeUrl"
+//        let downloadInfo = DownloadInfo(context: context!)
         url = urlStrings[indexPath.row]
         fileName = FileManage.getFileName(urlString: url!)
+//        downloadInfo.urlString = url
+//        downloadInfo.downloaded = false
+//        downloadInfo.fileName = fileName
+        
+        
         performSegue(withIdentifier: segueIdentifier, sender: nil)
     }
     
