@@ -8,23 +8,24 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, LoadManagerInfoDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     var loadManager: LoadManager?
-    var temporaryModel: TemporaryModel?
-    var localDownloads = [TemporaryModel]()
-    var downloadedFilesData: [DownloadInfo]?
     var downloadingLinks = [String]()
-    var cells = [LoaderTableViewCell]()
+    var loads = [LoadManager]()
+
     
     let identifier = "LoaderCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationController?.setNavigationBarHidden(true, animated: true)
-//        getSavedDownloadsInfo()
+        
+        
+
+        
+        
         
     }
     
@@ -53,21 +54,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     @IBAction func unwindToSelf(unwindSegue: UIStoryboardSegue) {
         if let dataVC = unwindSegue.source as? UrlsViewController {
-            if dataVC.temporaryModel != nil {
-//                let index = cells.count
-//                let indexPath = IndexPath(row: index, section: 0)
-                temporaryModel = dataVC.temporaryModel
-//                localDownloads.append(temporaryModel!)
-//                let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! LoaderTableViewCell
-//                cell.temporaryModel = temporaryModel
-//                print(temporaryModel?.fileName as Any)
-//                cells.append(cell)
-//                cell.cellTag = cells.count
-//                for cell in cells {
-//                    print (cell.temporaryModel?.fileName as Any)
-//                }
-//                print("\(cells.count), \(cell.tag)")
-//                downloadingLinks.append(temporaryModel!.urlString!)
+            if dataVC.url != nil {
+                loadManager = LoadManager()
+                loadManager?.delegate = self
+                loadManager?.loadFileFromUrl(urlString: dataVC.url!)
+                loads.append(loadManager!)
+                downloadingLinks.append(dataVC.url!)
+                
             }
             self.tableView.reloadData()
         }
@@ -76,8 +69,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     //MARK; TableView DataSource/Delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if cells.count != 0{
-            return cells.count
+        if loads.count != 0{
+            return loads.count
         } else {
             return 0
         }
@@ -85,46 +78,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-//        let cell = tableView.dequeueReusableCell(withIdentifier: identifier/*, for: indexPath*/) as! LoaderTableViewCell
-//            cell.temporaryModel = localDownloads[indexPath.row]
-//            cell.fileNameLbl.text = localDownloads[indexPath.row].fileName
-//            cell.cellTag = cell.tag
-        let cell = cells[indexPath.row]
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier/*, for: indexPath*/) as! LoaderTableViewCell
+        cell.fileNameLbl.text = loads[indexPath.row]._fileName
+        cell.progressInfoLbl.text = loads[indexPath.row]._dowloadingStage
+        cell.loader = loads[indexPath.row]
             return cell
     }
     
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            tableView.beginUpdates()
-//            tableView.deleteRows(at: [indexPath], with: .fade)
-//            tableView.endUpdates()
-//        }
-//    }
-
     
-    //MARK: Handle coreData fetch request and fetch downloaded urls
-    
-    
-//    func getSavedDownloadsInfo() {
-//        CoreDataManager.instance.getSortedFetch(onSuccess: { (fetchedResult) in
-//            downloadedFilesData = fetchedResult
-//            //            for file in downloadedFiles! {
-//            //                print("\(file.finishedDownload)")
-//            //            }
-//            
-//            for savedDownload in downloadedFilesData! {
-//                
-//                guard let link = savedDownload.urlString else {return}
-//                downloadedLinks.append(link)
-//                print(downloadedLinks.count as Any)
-//            }
-//        }, onError: { (defect) in
-//            DialogHelper.showAlert(title: "Error", message: defect.localizedDescription, controller: self)
-//        })
-//
-//    }
-    
+    func getLoadingInfo() {
+        tableView.reloadData()
+    }
     
     
     

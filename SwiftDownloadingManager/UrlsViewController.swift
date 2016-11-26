@@ -14,7 +14,6 @@ import UIKit
 class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    var temporaryModel: TemporaryModel?
     var url: String?
     var fileName: String?
     var downloadingLinks = [String]()
@@ -49,14 +48,7 @@ class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let segueIdentifier = "GoBackWithNeedeUrl"
-        temporaryModel = TemporaryModel()
         url = urlStrings[indexPath.row]
-        fileName = FileManage.getFileName(urlString: url!)
-        temporaryModel?.urlString = url
-        temporaryModel?.downloaded = false
-        temporaryModel?.fileName = fileName
-        
-        
         performSegue(withIdentifier: segueIdentifier, sender: nil)
     }
     //MARK: Working with loaded/loading links

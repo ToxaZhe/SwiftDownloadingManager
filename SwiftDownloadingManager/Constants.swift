@@ -10,6 +10,7 @@ import Foundation
 
 
 
+
 let song1UrlString = "https://promodj.com/download/5908259/Eugene%20Kushner%20-%20the%20dreamer%20%28promodj.com%29.mp3@"
 let song2UrlString = "https://promodj.com/download/845789/Bobina%20-%20Invisible%20Touch%20%28Ferry%20Corsten%27s%20Touch%29%20%5B%D0%93%D0%B8%D0%BC%D0%BD%20%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%82%D0%B8%D0%BF%D0%B0%202009%5D%20%28promodj.com%29.mp3"
 let song3UrlString = "https://promodj.com/download/3782490/Zveroboyz%20-%20Russian%20Language%20%28promodj.com%29.mp3"

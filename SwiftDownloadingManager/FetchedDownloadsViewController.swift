@@ -9,10 +9,12 @@
 import UIKit
 
 class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     var index: Int?
     var fetchedData = [DownloadInfo]()
     let identifier = "ListenSongSegue"
+    let defaults = UserDefaults.standard
+    let defaultsKey = "userFirstTime"
     
     @IBAction func backAction(_ sender: UIButton) {
         _ = navigationController?.popViewController(animated: true)
@@ -21,9 +23,18 @@ class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard defaults.object(forKey: defaultsKey) != nil else {
+            defaults.set(false, forKey: defaultsKey)
+            DialogHelper.showAlert(title: nil, message: "Swiping Left removing Entity ", controller: self)
+            return
+        }
         
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getSavedDownloadsInfo()
-        DialogHelper.showAlert(title: nil, message: "Swiping Left removing Entity ", controller: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -56,13 +67,8 @@ class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("\(indexPath.row)")
-            let entityToRemove = fetchedData[indexPath.row]
-            CoreDataManager.instance.removeEntity(savedInfo: entityToRemove, onError: { (defect) in
-                DialogHelper.showAlert(title: "Failed", message: "\(defect.localizedDescription)", controller: self)
-            })
-            fetchedData.remove(at: indexPath.row)
-
+            
+            removeDataFromApp(index: indexPath.row)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
@@ -79,5 +85,16 @@ class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UIT
         })
         
     }
-
+    
+    func removeDataFromApp(index: Int) {
+        let entityToRemove = fetchedData[index]
+        FileManage.removeFromDirectory(fileName: entityToRemove.fileName!, onError: {(defect) in
+            DialogHelper.showAlert(title: "Failed", message: "\(defect.localizedDescription)", controller: self)
+        })
+        CoreDataManager.instance.removeEntity(savedInfo: entityToRemove, onError: { (defect) in
+            DialogHelper.showAlert(title: "Failed", message: "\(defect.localizedDescription)", controller: self)
+        })
+        fetchedData.remove(at: index)
     }
+
+}

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol LoadManagerInfoDelegate: class {
-    func getLoadingInfo(_ startDate: Date?, finishedDate: Date?, downloaded: Bool, expectedBytes: Int?, writtenBytes: Int?, error: Error?)
+    func getLoadingInfo()
 }
 
 class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSessionTaskDelegate {
@@ -21,14 +21,17 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
     var _fileDowloaded = false
     var _expectedFileLenght: Int64?
     var _fileData = Data()
-    var _error: Error?
     var _startDowloading: Date?
     var _finishDowloading: Date?
+    var _fileName: String?
+    var _dowloadingStage: String?
     weak var delegate: LoadManagerInfoDelegate?
     
     
     func loadFileFromUrl(urlString: String) {
+        
         _fileUrl = urlString
+        _fileName = FileManage.getFileName(urlString: urlString)
         let url = URL(string: urlString)!
         let defConfigObject = URLSessionConfiguration.default
         let defaultSession = URLSession(configuration: defConfigObject, delegate: self, delegateQueue: OperationQueue.main)
@@ -48,15 +51,16 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
         
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if error != nil {
-            delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: error)
+            _dowloadingStage = "\(error.debugDescription)"
+            delegate?.getLoadingInfo()
         } else {
-            guard let url = _fileUrl else {print("LoadManager -> can't save dat - no urlString"); return}
-            let fileName = FileManage.getFileName(urlString: url)
-            FileManage.saveMp3ToTheAppDirectory(fileData: _fileData, fileName: fileName, onSuccess: {
-                saveDownloadInfo(link: _fileUrl!, fileName: fileName)
-                delegate?.getLoadingInfo(_startDowloading, finishedDate: _finishDowloading, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: nil)
+            FileManage.saveMp3ToTheAppDirectory(fileData: _fileData, fileName: _fileName!, onSuccess: {
+                saveDownloadInfo(link: _fileUrl!, fileName: _fileName!)
+                _dowloadingStage = "Started \(_startDowloading!) Completed \(_finishDowloading!)"
+                delegate?.getLoadingInfo()
             }, onError: { (failure) in
-                delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: failure)
+                _dowloadingStage = "\(failure.localizedDescription)"
+                delegate?.getLoadingInfo()
             })
             
         }
@@ -77,7 +81,8 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
             _fileData.append(data)
             let bytesWritten = _fileData.count
             let expectedBytes = Int(_expectedFileLenght!)
-            delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: false, expectedBytes: expectedBytes, writtenBytes: bytesWritten, error: nil)
+            _dowloadingStage =  "download \(bytesWritten) of \(expectedBytes) bytes "
+            delegate?.getLoadingInfo()
             
         }
     }
@@ -109,14 +114,14 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
     func saveDownloadInfo(link: String, fileName: String) {
         
         let downloadInfo = DownloadInfo(context: CoreDataManager.instance.getContext()!)
-        downloadInfo.downloaded = true
+        downloadInfo.downloaded = _fileDowloaded
         downloadInfo.startingDownload = _startDowloading as NSDate?
         downloadInfo.finishedDownload = _finishDowloading as NSDate?
         downloadInfo.urlString = link
         downloadInfo.fileName = fileName
         CoreDataManager.instance.saveMox(storeMod: downloadInfo, onError: { (failure) in
-            print("\(failure.localizedDescription)")
-            delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: failure)
+            _dowloadingStage = "\(failure.localizedDescription)"
+            delegate?.getLoadingInfo()
         })
 
     }
