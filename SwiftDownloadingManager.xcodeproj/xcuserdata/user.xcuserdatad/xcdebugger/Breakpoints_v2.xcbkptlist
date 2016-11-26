@@ -10,12 +10,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SwiftDownloadingManager/LoaderTableViewCell.swift"
-            timestampString = "501813013.940196"
+            timestampString = "501888514.856592"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "getLoadingInfo(_:finishedDate:downloaded:expectedBytes:writtenBytes:error:)"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "prepareForReuse()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwiftDownloadingManager/LoaderTableViewCell.swift"
+            timestampString = "501888553.748184"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "configCellOrManageLoading()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

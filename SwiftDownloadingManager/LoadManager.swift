@@ -52,7 +52,8 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
         } else {
             guard let url = _fileUrl else {print("LoadManager -> can't save dat - no urlString"); return}
             let fileName = FileManage.getFileName(urlString: url)
-            FileManage.saveMp3ToTheAppDirectory(fileData: _fileData, fileName: fileName, onSuccess: { 
+            FileManage.saveMp3ToTheAppDirectory(fileData: _fileData, fileName: fileName, onSuccess: {
+                saveDownloadInfo(link: _fileUrl!, fileName: fileName)
                 delegate?.getLoadingInfo(_startDowloading, finishedDate: _finishDowloading, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: nil)
             }, onError: { (failure) in
                 delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: failure)
@@ -77,7 +78,7 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
             let bytesWritten = _fileData.count
             let expectedBytes = Int(_expectedFileLenght!)
             delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: false, expectedBytes: expectedBytes, writtenBytes: bytesWritten, error: nil)
-    
+            
         }
     }
     
@@ -103,9 +104,22 @@ class LoadManager: NSObject, URLSessionDataDelegate, URLSessionDelegate, URLSess
     }
     
     
-  
+  //MARK: Save Download info to local store
     
-    
+    func saveDownloadInfo(link: String, fileName: String) {
+        
+        let downloadInfo = DownloadInfo(context: CoreDataManager.instance.getContext()!)
+        downloadInfo.downloaded = true
+        downloadInfo.startingDownload = _startDowloading as NSDate?
+        downloadInfo.finishedDownload = _finishDowloading as NSDate?
+        downloadInfo.urlString = link
+        downloadInfo.fileName = fileName
+        CoreDataManager.instance.saveMox(storeMod: downloadInfo, onError: { (failure) in
+            print("\(failure.localizedDescription)")
+            delegate?.getLoadingInfo(nil, finishedDate: nil, downloaded: true, expectedBytes: nil, writtenBytes: nil, error: failure)
+        })
+
+    }
     
     
 }

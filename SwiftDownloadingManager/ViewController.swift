@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var localDownloads = [TemporaryModel]()
     var downloadedFilesData: [DownloadInfo]?
     var downloadingLinks = [String]()
-    
+    var cells = [LoaderTableViewCell]()
     
     let identifier = "LoaderCell"
     
@@ -54,9 +54,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func unwindToSelf(unwindSegue: UIStoryboardSegue) {
         if let dataVC = unwindSegue.source as? UrlsViewController {
             if dataVC.temporaryModel != nil {
+//                let index = cells.count
+//                let indexPath = IndexPath(row: index, section: 0)
                 temporaryModel = dataVC.temporaryModel
-                localDownloads.append(temporaryModel!)
-                downloadingLinks.append(temporaryModel!.urlString!)
+//                localDownloads.append(temporaryModel!)
+//                let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! LoaderTableViewCell
+//                cell.temporaryModel = temporaryModel
+//                print(temporaryModel?.fileName as Any)
+//                cells.append(cell)
+//                cell.cellTag = cells.count
+//                for cell in cells {
+//                    print (cell.temporaryModel?.fileName as Any)
+//                }
+//                print("\(cells.count), \(cell.tag)")
+//                downloadingLinks.append(temporaryModel!.urlString!)
             }
             self.tableView.reloadData()
         }
@@ -65,8 +76,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     //MARK; TableView DataSource/Delegate methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if localDownloads.count != 0{
-            return localDownloads.count
+        if cells.count != 0{
+            return cells.count
         } else {
             return 0
         }
@@ -74,10 +85,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier/*, for: indexPath*/) as! LoaderTableViewCell
-            cell.temporaryModel = localDownloads[indexPath.row]
+//        let cell = tableView.dequeueReusableCell(withIdentifier: identifier/*, for: indexPath*/) as! LoaderTableViewCell
+//            cell.temporaryModel = localDownloads[indexPath.row]
 //            cell.fileNameLbl.text = localDownloads[indexPath.row].fileName
-            cell.cellTag = cell.tag
+//            cell.cellTag = cell.tag
+        let cell = cells[indexPath.row]
+        
             return cell
     }
     

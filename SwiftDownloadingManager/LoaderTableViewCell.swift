@@ -41,7 +41,6 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
         super.setSelected(selected, animated: animated)
 //        if !tags.contains(cellTag!) {
 //            tags.insert(cellTag!)
-//            print(cellTag as Any)
             configCellOrManageLoading()
 //        }
         // Configure the view for the selected state
@@ -52,7 +51,6 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
 
         loader = LoadManager()
         loader?.delegate = self
-        print(temporaryModel.debugDescription as Any)
         if !temporaryModel!.downloaded && temporaryModel?.urlString != nil {
             loader?.loadFileFromUrl(urlString: (temporaryModel!.urlString)!)
         }
@@ -64,16 +62,6 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
         if downloaded && startDate != nil && finishedDate != nil {
             progressInfoLbl.text = "Started \(startDate!) Completed \(finishedDate!)"
             temporaryModel!.downloaded = true
-            downloadInfo = DownloadInfo(context: CoreDataManager.instance.getContext()!)
-            downloadInfo?.downloaded = downloaded
-            downloadInfo?.startingDownload = startDate as NSDate?
-            downloadInfo?.finishedDownload = finishedDate as NSDate?
-            downloadInfo?.urlString = temporaryModel?.urlString
-            downloadInfo?.fileName = temporaryModel?.fileName
-            CoreDataManager.instance.saveMox(storeMod: downloadInfo!, onError: { (failure) in
-                progressInfoLbl.text = "\(failure.localizedDescription)"
-            })
-            
         } else if error == nil {
             progressInfoLbl.text = "download \(writtenBytes!) of \(expectedBytes!) bytes "
         } else if error != nil {
