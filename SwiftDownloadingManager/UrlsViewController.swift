@@ -14,17 +14,31 @@ import UIKit
 class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    let context = CoreDataManager.instance.getContext()
-    
+    var temporaryModel: TemporaryModel?
     var url: String?
     var fileName: String?
-    let urlStrings = [song1UrlString, song2UrlString, song3UrlString, song4UrlString, song5UrlString, song6UrlString, song7UrlString, song8UrlString, song9UrlString, song10UrlString, song11UrlString, song12UrlString, song13UrlString, song14UrlString, song15UrlString, song16UrlString, song17UrlString, song18UrlString, song19UrlString, song20UrlString]
+    var downloadedLinks = [String]()
+    var urlStrings = [song1UrlString, song2UrlString, song3UrlString, song4UrlString, song5UrlString, song6UrlString, song7UrlString, song8UrlString, song9UrlString, song10UrlString, song11UrlString, song12UrlString, song13UrlString, song14UrlString, song15UrlString, song16UrlString, song17UrlString, song18UrlString, song19UrlString, song20UrlString]
     
+    
+    @IBAction func backAction(_ sender: UIButton) {
+        _ = navigationController?.popViewController(animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        removeDownloadedLinks()
+    }
+    
+    
+    func removeDownloadedLinks() {
+        for link in urlStrings {
+            let index = urlStrings.index(of: link)
+            if downloadedLinks.contains(link) {
+                urlStrings.remove(at: index!)
+            }
+        }
+        self.tableView.reloadData()
     }
 
 
@@ -37,6 +51,7 @@ class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         let color = UIColor.orange
+        cell.backgroundColor = UIColor.clear
         cell.textLabel?.text = FileManage.getFileName(urlString: urlStrings[indexPath.row])
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.textColor = color
@@ -45,12 +60,12 @@ class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let segueIdentifier = "GoBackWithNeedeUrl"
-//        let downloadInfo = DownloadInfo(context: context!)
+        temporaryModel = TemporaryModel()
         url = urlStrings[indexPath.row]
         fileName = FileManage.getFileName(urlString: url!)
-//        downloadInfo.urlString = url
-//        downloadInfo.downloaded = false
-//        downloadInfo.fileName = fileName
+        temporaryModel?.urlString = url
+        temporaryModel?.downloaded = false
+        temporaryModel?.fileName = fileName
         
         
         performSegue(withIdentifier: segueIdentifier, sender: nil)

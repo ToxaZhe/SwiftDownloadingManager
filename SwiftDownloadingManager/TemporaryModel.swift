@@ -11,6 +11,6 @@ import Foundation
 
 class TemporaryModel {
     var urlString: String?
-    var downloaded: String?
+    var downloaded = false
     var fileName: String?
 }

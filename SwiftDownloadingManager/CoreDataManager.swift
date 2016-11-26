@@ -70,8 +70,14 @@ class CoreDataManager: NSObject {
             
             let searchResults = try context!.fetch(fetchRequest)
             
-            print ("num of results = \(searchResults.description)")
-            
+//            print ("num of results = \(searchResults.description)")
+            for mod in searchResults {
+                if mod.finishedDownload == nil && mod.startingDownload == nil {
+                    removeEntity(savedInfo: mod, onError: { (error) in
+                        onError(error)
+                    })
+                }
+            }
             let res = searchResults.sorted(by: {$0.finishedDownload! <
                 $1.finishedDownload!})
             onSuccess(res)
@@ -83,23 +89,31 @@ class CoreDataManager: NSObject {
         
     }
     
-    func removeEntity(songName: String, onError:(Error) -> ()) {
+    func removeEntity(savedInfo: DownloadInfo, onError:(Error) -> ()) {
         let context = getContext()
         let fetchRequest: NSFetchRequest<DownloadInfo> = DownloadInfo.fetchRequest()
-        let predicate = NSPredicate(format: "fileName == %@", songName)
-        fetchRequest.predicate = predicate
-        do {
-            let searchResults = try context!.fetch(fetchRequest)
-            for res in searchResults {
-                context!.delete(res)
-                print("successfully removed entity")
+        let songName = savedInfo.fileName
+        if songName != nil {
+            let predicate = NSPredicate(format: "fileName == %@", songName!)
+            fetchRequest.predicate = predicate
+            do {
+                let searchResults = try context!.fetch(fetchRequest)
+                for res in searchResults {
+                    context!.delete(res)
+                    print("successfully removed entity")
+                }
+            } catch {
+                onError(error)
             }
-        } catch {
-            onError(error)
+
+        } else {
+            context?.delete(savedInfo)
         }
         saveContext()
     }
 }
+
+
 
 
 extension NSDate {

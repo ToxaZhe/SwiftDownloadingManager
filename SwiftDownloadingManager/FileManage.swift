@@ -39,12 +39,12 @@ class FileManage {
         }
     }
     
-    static func getFileFromAppDocumentsDerictory(urlString:String, onSuccess:(Data) ->(), onError:(Error) -> ())  {
-        let url = URL(string: urlString)
-        guard url != nil else {return}
-        let fileName = url?.lastPathComponent
+    static func getFileFromAppDocumentsDerictory(fileName:String, onSuccess:(Data) -> (), onError:(Error) -> ())  {
+//        let url = URL(string: urlString)
+//        guard url != nil else {return}
+//        let fileName = url?.lastPathComponent
         let documentsUrl = applicationDocumentsDirectory()
-        let fullFileName = String(format: "%@/%@.mp3", documentsUrl.path,fileName!)
+        let fullFileName = String(format: "%@/%@.mp3", documentsUrl.path,fileName)
         if fileManager.fileExists(atPath: fullFileName) {
             do {
                 let fileData = try Data.init(contentsOf: URL.init(fileURLWithPath: fullFileName))
