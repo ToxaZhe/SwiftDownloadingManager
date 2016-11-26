@@ -17,7 +17,7 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
     
     var downloadInfo: DownloadInfo?
     var loader: LoadManager?
-    var urlString: String?
+//    var urlString: String?
 //    var fileName: String?
 //    var downloaded = false
     var temporaryModel: TemporaryModel?
@@ -28,6 +28,13 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.fileNameLbl.text = nil
+        self.progressInfoLbl.text = nil
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -45,7 +52,7 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
 
         loader = LoadManager()
         loader?.delegate = self
-//        print(temporaryModel.debugDescription as Any)
+        print(temporaryModel.debugDescription as Any)
         if !temporaryModel!.downloaded && temporaryModel?.urlString != nil {
             loader?.loadFileFromUrl(urlString: (temporaryModel!.urlString)!)
         }

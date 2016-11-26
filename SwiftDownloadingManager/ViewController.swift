@@ -74,9 +74,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! LoaderTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier/*, for: indexPath*/) as! LoaderTableViewCell
             cell.temporaryModel = localDownloads[indexPath.row]
-//            cell.cellTag = cell.tag
+//            cell.fileNameLbl.text = localDownloads[indexPath.row].fileName
+            cell.cellTag = cell.tag
             return cell
     }
     
