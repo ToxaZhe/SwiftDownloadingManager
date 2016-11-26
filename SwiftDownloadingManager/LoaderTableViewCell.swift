@@ -17,26 +17,26 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
     
     var downloadInfo: DownloadInfo?
     var loader: LoadManager?
-//    var urlString: String?
+    var urlString: String?
 //    var fileName: String?
 //    var downloaded = false
     var temporaryModel: TemporaryModel?
     var cellTag: Int?
     var tags = Set<Int>()
   //MARK:  cell info
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        
        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        if !tags.contains(cellTag!) {
-            tags.insert(cellTag!)
+//        if !tags.contains(cellTag!) {
+//            tags.insert(cellTag!)
+//            print(cellTag as Any)
             configCellOrManageLoading()
-        }
+//        }
         // Configure the view for the selected state
     }
 //MARK: Handle download process
@@ -45,6 +45,7 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
 
         loader = LoadManager()
         loader?.delegate = self
+//        print(temporaryModel.debugDescription as Any)
         if !temporaryModel!.downloaded && temporaryModel?.urlString != nil {
             loader?.loadFileFromUrl(urlString: (temporaryModel!.urlString)!)
         }
@@ -67,7 +68,7 @@ class LoaderTableViewCell: UITableViewCell, LoadManagerInfoDelegate {
             })
             
         } else if error == nil {
-            progressInfoLbl.text = "\(writtenBytes!) bytes of \(expectedBytes!) bytes "
+            progressInfoLbl.text = "download \(writtenBytes!) of \(expectedBytes!) bytes "
         } else if error != nil {
             progressInfoLbl.text = "\(error!.localizedDescription)"
         }

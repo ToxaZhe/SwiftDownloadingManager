@@ -95,7 +95,7 @@
                                                         <action selector="stopResumeAction:" destination="pqj-Yd-fqi" eventType="touchUpInside" id="cxb-Dm-2Xn"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTQ-iQ-JK9">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="jTQ-iQ-JK9">
                                                     <rect key="frame" x="56" y="12" width="307" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.2661622917" green="0.461080661" blue="0.14798157980000001" alpha="1" colorSpace="calibratedRGB"/>

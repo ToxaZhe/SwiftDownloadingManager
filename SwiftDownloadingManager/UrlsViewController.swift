@@ -17,7 +17,7 @@ class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var temporaryModel: TemporaryModel?
     var url: String?
     var fileName: String?
-    var downloadedLinks = [String]()
+    var downloadingLinks = [String]()
     var urlStrings = [song1UrlString, song2UrlString, song3UrlString, song4UrlString, song5UrlString, song6UrlString, song7UrlString, song8UrlString, song9UrlString, song10UrlString, song11UrlString, song12UrlString, song13UrlString, song14UrlString, song15UrlString, song16UrlString, song17UrlString, song18UrlString, song19UrlString, song20UrlString]
     
     
@@ -27,20 +27,8 @@ class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        removeDownloadedLinks()
+        removeUsedLinks()
     }
-    
-    
-    func removeDownloadedLinks() {
-        for link in urlStrings {
-            let index = urlStrings.index(of: link)
-            if downloadedLinks.contains(link) {
-                urlStrings.remove(at: index!)
-            }
-        }
-        self.tableView.reloadData()
-    }
-
 
     //MARK: TableView Delegates
     
@@ -52,6 +40,7 @@ class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = UITableViewCell()
         let color = UIColor.orange
         cell.backgroundColor = UIColor.clear
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
         cell.textLabel?.text = FileManage.getFileName(urlString: urlStrings[indexPath.row])
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.textColor = color
@@ -70,5 +59,30 @@ class UrlsViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         performSegue(withIdentifier: segueIdentifier, sender: nil)
     }
-    
+    //MARK: Working with loaded/loading links
+        func removeUsedLinks() {
+            CoreDataManager.instance.getSortedFetch(onSuccess: { (fetchedResult) in
+                for savedDownload in fetchedResult {
+                    guard let link = savedDownload.urlString else {return}
+                    let index = urlStrings.index(of: link)
+                    if urlStrings.contains(link) {
+                        urlStrings.remove(at: index!)
+                    }
+                }
+            }, onError: { (defect) in
+                DialogHelper.showAlert(title: "Error", message: defect.localizedDescription, controller: self)
+            })
+            removeDownloadingLinks()
+        }
+ 
+    func removeDownloadingLinks() {
+        for link in urlStrings {
+            let index = urlStrings.index(of: link)
+            if downloadingLinks.contains(link) {
+                urlStrings.remove(at: index!)
+            }
+        }
+        self.tableView.reloadData()
+    }
+
 }

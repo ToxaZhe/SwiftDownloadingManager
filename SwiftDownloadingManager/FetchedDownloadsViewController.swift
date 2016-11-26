@@ -21,8 +21,9 @@ class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        getSavedDownloadsInfo()
+        DialogHelper.showAlert(title: nil, message: "Swiping Left removing Entity ", controller: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -55,15 +56,28 @@ class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
             print("\(indexPath.row)")
             let entityToRemove = fetchedData[indexPath.row]
             CoreDataManager.instance.removeEntity(savedInfo: entityToRemove, onError: { (defect) in
                 DialogHelper.showAlert(title: "Failed", message: "\(defect.localizedDescription)", controller: self)
             })
             fetchedData.remove(at: indexPath.row)
-        }
+
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+                    }
     }
 
-}
+    //MARK: Handle Fetch from Core Data and removing dowloaded links
+    
+    func getSavedDownloadsInfo() {
+        CoreDataManager.instance.getSortedFetch(onSuccess: { (fetchedResult) in
+            fetchedData = fetchedResult
+        }, onError: { (defect) in
+            DialogHelper.showAlert(title: "Error", message: defect.localizedDescription, controller: self)
+        })
+        
+    }
+
+    }

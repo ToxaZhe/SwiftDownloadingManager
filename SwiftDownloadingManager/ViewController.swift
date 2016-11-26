@@ -15,7 +15,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var temporaryModel: TemporaryModel?
     var localDownloads = [TemporaryModel]()
     var downloadedFilesData: [DownloadInfo]?
-    var downloadedLinks = [String]()
+    var downloadingLinks = [String]()
     
     
     let identifier = "LoaderCell"
@@ -24,7 +24,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         
         navigationController?.setNavigationBarHidden(true, animated: true)
-        getSavedDownloadsInfo()
+//        getSavedDownloadsInfo()
         
     }
     
@@ -42,12 +42,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let chooseDownloadUrlSegue = "ChooseDownloadUrlSegue"
         if segue.identifier == showCoreDataInfo {
             
-            let destVC = segue.destination as! FetchedDownloadsViewController
-            destVC.fetchedData = downloadedFilesData!
+//            let destVC = segue.destination as! FetchedDownloadsViewController
+//            destVC.fetchedData = downloadedFilesData!
             
         } else if segue.identifier == chooseDownloadUrlSegue {
             let destVC = segue.destination as! UrlsViewController
-            destVC.downloadedLinks = downloadedLinks
+            destVC.downloadingLinks = downloadingLinks
         }
     }
 
@@ -56,6 +56,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             if dataVC.temporaryModel != nil {
                 temporaryModel = dataVC.temporaryModel
                 localDownloads.append(temporaryModel!)
+                downloadingLinks.append(temporaryModel!.urlString!)
             }
             self.tableView.reloadData()
         }
@@ -73,40 +74,42 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! LoaderTableViewCell
-        cell.temporaryModel = localDownloads[indexPath.row]
-        cell.cellTag = cell.tag
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! LoaderTableViewCell
+            cell.temporaryModel = localDownloads[indexPath.row]
+//            cell.cellTag = cell.tag
+            return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            localDownloads.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            tableView.beginUpdates()
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//            tableView.endUpdates()
+//        }
+//    }
+
     
     //MARK: Handle coreData fetch request and fetch downloaded urls
     
     
-    func getSavedDownloadsInfo() {
-        CoreDataManager.instance.getSortedFetch(onSuccess: { (fetchedResult) in
-            downloadedFilesData = fetchedResult
-            //            for file in downloadedFiles! {
-            //                print("\(file.finishedDownload)")
-            //            }
-            
-            for savedDownload in downloadedFilesData! {
-                
-                guard let link = savedDownload.urlString else {return}
-                downloadedLinks.append(link)
-                print(downloadedLinks.count as Any)
-            }
-        }, onError: { (defect) in
-            DialogHelper.showAlert(title: "Error", message: defect.localizedDescription, controller: self)
-        })
-
-    }
+//    func getSavedDownloadsInfo() {
+//        CoreDataManager.instance.getSortedFetch(onSuccess: { (fetchedResult) in
+//            downloadedFilesData = fetchedResult
+//            //            for file in downloadedFiles! {
+//            //                print("\(file.finishedDownload)")
+//            //            }
+//            
+//            for savedDownload in downloadedFilesData! {
+//                
+//                guard let link = savedDownload.urlString else {return}
+//                downloadedLinks.append(link)
+//                print(downloadedLinks.count as Any)
+//            }
+//        }, onError: { (defect) in
+//            DialogHelper.showAlert(title: "Error", message: defect.localizedDescription, controller: self)
+//        })
+//
+//    }
     
     
     
