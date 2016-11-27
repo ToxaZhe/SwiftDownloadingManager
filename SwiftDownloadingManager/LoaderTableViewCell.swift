@@ -16,8 +16,7 @@ class LoaderTableViewCell: UITableViewCell {
     
     var loader: LoadManager?
     var downloaded = false
-    var cellTag: Int?
-    var tags = Set<Int>()
+    
   //MARK:  cell info
     
     override func awakeFromNib() {
@@ -26,19 +25,18 @@ class LoaderTableViewCell: UITableViewCell {
         
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        self.fileNameLbl.text = nil
-        self.progressInfoLbl.text = nil
-    }
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        
+////        self.fileNameLbl.text = nil
+////        self.progressInfoLbl.text = nil
+//    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
     @IBAction func stopResumeAction(_ sender: UIButton) {
-        if !(downloaded) {
             if loader?._fileTask?.state == .running  {
                 let imageResumeName = "resume"
                 stopResumeButton.setImage(UIImage.init(named: imageResumeName), for: .normal)
@@ -48,10 +46,6 @@ class LoaderTableViewCell: UITableViewCell {
                 let imageResumeName = "image"
                 stopResumeButton.setImage(UIImage.init(named: imageResumeName), for: .normal)
                 loader?.start()
-            } else if loader?._fileTask?.state == .completed {
-                let imageResumeName = "image"
-                stopResumeButton.setImage(UIImage.init(named: imageResumeName), for: .normal)
-            }
         }
     }
     

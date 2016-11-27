@@ -10,14 +10,14 @@ import UIKit
 import  AVFoundation
 
 
-class PlaerViewController: UIViewController {
+class PlayerViewController: UIViewController {
 
     
     @IBOutlet weak var fileNameLbl: UILabel!
     @IBOutlet weak var playPauseButton: UIButton!
     
     var fileName: String?
-    var player: AVAudioPlayer?
+    
     @IBAction func backAction(_ sender: UIButton) {
         _ = navigationController?.popViewController(animated: true)
     }
@@ -35,7 +35,7 @@ class PlaerViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.player = nil
+//        self.player = nil
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,9 +52,9 @@ class PlaerViewController: UIViewController {
     FileManage.getFileFromAppDocumentsDerictory(fileName: fileName!, onSuccess: { (fileData) in
         do {
             
-            player = try AVAudioPlayer(data: fileData)
-            player?.play()
-            player?.numberOfLoops = -1
+            AppDelegate.player = try AVAudioPlayer(data: fileData)
+            AppDelegate.player.play()
+            AppDelegate.player.numberOfLoops = -1
         } catch let error {
             DialogHelper.showAlert(title: "error", message: "\(error.localizedDescription)", controller: self)
         }
@@ -67,13 +67,13 @@ class PlaerViewController: UIViewController {
     }
     
     func playPause() {
-        guard let player = self.player else {return}
-        if player.isPlaying {
+        
+        if AppDelegate.player.isPlaying {
             playPauseButton.setImage(UIImage.init(named: "play"), for: .normal)
-            player.pause()
+            AppDelegate.player.pause()
         } else {
             playPauseButton.setImage(UIImage.init(named: "image"), for: .normal)
-            player.play()
+            AppDelegate.player.play()
         }
     }
    

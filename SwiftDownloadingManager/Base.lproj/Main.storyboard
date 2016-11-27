@@ -236,10 +236,10 @@
             </objects>
             <point key="canvasLocation" x="1484" y="630"/>
         </scene>
-        <!--Plaer View Controller-->
+        <!--Player View Controller-->
         <scene sceneID="l6I-f4-25X">
             <objects>
-                <viewController id="sAJ-fs-vmA" customClass="PlaerViewController" customModule="SwiftDownloadingManager" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sAJ-fs-vmA" customClass="PlayerViewController" customModule="SwiftDownloadingManager" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="z1f-4j-FEw"/>
                         <viewControllerLayoutGuide type="bottom" id="2EJ-Vm-bdd"/>

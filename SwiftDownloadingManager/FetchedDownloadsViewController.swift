@@ -10,7 +10,6 @@ import UIKit
 
 class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var index: Int?
     var fetchedData = [DownloadInfo]()
     let identifier = "ListenSongSegue"
     let defaults = UserDefaults.standard
@@ -40,15 +39,15 @@ class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UIT
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == identifier {
-            let destVC = segue.destination as! PlaerViewController
-            destVC.fileName = fetchedData[index!].fileName
+            let destVC = segue.destination as! PlayerViewController
+            destVC.fileName = fetchedData[songIndex!].fileName
         }
     }
 
    //MARK: TableView Delegate\DataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        index = indexPath.row
+        songIndex = indexPath.row
         performSegue(withIdentifier: identifier, sender: nil)
     }
     
@@ -67,12 +66,16 @@ class FetchedDownloadsViewController: UIViewController, UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            if indexPath.row != songIndex{
+                removeDataFromApp(index: indexPath.row)
+                tableView.beginUpdates()
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.endUpdates()
+            } else {
+                DialogHelper.showAlert(title: nil, message: "Can't delete, the song is playing now", controller: self)
+            }
             
-            removeDataFromApp(index: indexPath.row)
-            tableView.beginUpdates()
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.endUpdates()
-                    }
+        }
     }
 
     //MARK: Handle Fetch from Core Data and removing dowloaded links
