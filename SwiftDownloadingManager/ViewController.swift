@@ -87,7 +87,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     func getLoadingInfo() {
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
     }
     
     
