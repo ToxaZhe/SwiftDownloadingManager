@@ -35,6 +35,8 @@ class LoaderTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+//MARK: Handle download process
+    
     
     @IBAction func stopResumeAction(_ sender: UIButton) {
             if loader?._fileTask?.state == .running  {

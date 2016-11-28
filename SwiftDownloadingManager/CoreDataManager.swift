@@ -69,8 +69,6 @@ class CoreDataManager: NSObject {
         do {
             
             let searchResults = try context!.fetch(fetchRequest)
-            
-//            print ("num of results = \(searchResults.description)")
             for mod in searchResults {
                 if mod.finishedDownload == nil && mod.startingDownload == nil {
                     removeEntity(savedInfo: mod, onError: { (error) in

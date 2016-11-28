@@ -126,6 +126,7 @@
 				TargetAttributes = {
 					CE83DB2A1DDF88C500B953EE = {
 						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = E9A3K3TA5Z;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -298,7 +299,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E9A3K3TA5Z;
 				INFOPLIST_FILE = SwiftDownloadingManager/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toxa.apps.SwiftDownloadingManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -310,7 +313,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E9A3K3TA5Z;
 				INFOPLIST_FILE = SwiftDownloadingManager/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.toxa.apps.SwiftDownloadingManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
